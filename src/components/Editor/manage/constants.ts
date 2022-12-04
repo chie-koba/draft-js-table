@@ -1,0 +1,1 @@
+export const BLOCK_TYPE_TABLE = "table";

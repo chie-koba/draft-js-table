@@ -1,38 +1,25 @@
-import React, { useCallback, useState } from "react";
-import {
-  convertFromRaw,
-  Editor as DraftJsEditor,
-  EditorState,
-  genKey,
-} from "draft-js";
+import React from "react";
+import { Editor as DraftJsEditor } from "draft-js";
+import { useRichText } from "./manage/useRichText";
+import { ControlButtons } from "./ControlButtons";
+import { blockRenderFn } from "./manage/blockRenderFn";
 
-export const Editor: React.FC = () => {
-  // see: https://github.com/facebook/draft-js/issues/2332
-  const [editorState, setEditorState] = useState(
-    EditorState.createWithContent(
-      convertFromRaw({
-        entityMap: {},
-        blocks: [
-          {
-            text: "",
-            key: genKey(),
-            type: "unstyled",
-            entityRanges: [],
-            depth: 0,
-            inlineStyleRanges: [],
-          },
-        ],
-      })
-    )
-  );
-
-  const onChange = useCallback((state: EditorState) => {
-    setEditorState(state);
-  }, []);
+const Editor: React.FC = () => {
+  const { editorState, addTable, onChange } = useRichText();
 
   return (
     <div>
-      <DraftJsEditor editorState={editorState} onChange={onChange} />
+      <ControlButtons addTable={addTable} />
+      <div style={{ border: "1px solid #000" }}>
+        <DraftJsEditor
+          placeholder="テキストを入力"
+          editorState={editorState}
+          onChange={onChange}
+          blockRendererFn={blockRenderFn}
+        />
+      </div>
     </div>
   );
 };
+
+export default Editor;
