@@ -1,6 +1,7 @@
 import { convertFromRaw, EditorState, genKey } from "draft-js";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { createTable } from "./controlTable/createTable";
+import { handleReturn as _handleReturn } from "./handleReturn";
 
 export const useRichText = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -15,5 +16,10 @@ export const useRichText = () => {
     updateEditorState(state);
   }, [editorState, updateEditorState]);
 
-  return { addTable, editorState, onChange: updateEditorState };
+  const handleReturn = useMemo(
+    () => _handleReturn(updateEditorState),
+    [updateEditorState]
+  );
+
+  return { addTable, editorState, onChange: updateEditorState, handleReturn };
 };

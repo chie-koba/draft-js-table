@@ -5,7 +5,7 @@ import { ControlButtons } from "./ControlButtons";
 import { blockRenderFn } from "./manage/blockRenderFn";
 
 const Editor: React.FC = () => {
-  const { editorState, addTable, onChange } = useRichText();
+  const { editorState, addTable, onChange, handleReturn } = useRichText();
 
   return (
     <div>
@@ -16,6 +16,7 @@ const Editor: React.FC = () => {
           editorState={editorState}
           onChange={onChange}
           blockRendererFn={blockRenderFn}
+          handleReturn={handleReturn}
         />
       </div>
     </div>
